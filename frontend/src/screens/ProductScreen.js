@@ -18,7 +18,7 @@ function ProductScreen({ match }) {
 	return (
 		<>
 			<Link className='btn btn-light my-3' to='/'>
-				Wróć
+				&lt; Wróć
 			</Link>
 			<Row>
 				<Col md={12} xl={6}>
@@ -41,8 +41,6 @@ function ProductScreen({ match }) {
 								text={`${product.numReviews} ocen`}
 							/>
 						</ListGroup.Item>
-
-						<ListGroup.Item>Cena: {product.price} zł</ListGroup.Item>
 
 						<ListGroup.Item>Opis: {product.description}</ListGroup.Item>
 					</ListGroup>
