@@ -9,7 +9,7 @@ const connectDB = async () => {
 		});
 
 		console.log(
-			`Połączono z MongoDB na serwerze: ${db.connection.host}`.cyan.underline
+			`Połączono z serwerem MongoDB na: ${db.connection.host}`.cyan.underline
 		);
 	} catch (error) {
 		console.error(
