@@ -16,6 +16,7 @@ import Loader from '../components/Loader';
 import Rating from '../components/Rating';
 
 import { listProductDetails } from '../actions/product.actions';
+import { addToCart } from '../actions/cart.actions';
 
 function ProductScreen({ history, match }) {
 	const [quantity, setQuantity] = useState(1);
@@ -37,8 +38,10 @@ function ProductScreen({ history, match }) {
 			<p className='text-danger'>Wyprzedane</p>
 		);
 
-	const addToCartHandler = () => {
-		history.push(`/cart/${match.params.id}?qty=${quantity}`);
+	const addToCartHandler = id => {
+		dispatch(addToCart(id, quantity));
+		history.push('/cart');
+		// history.push(`/cart/${match.params.id}?qty=${quantity}`);
 	};
 
 	return (
@@ -122,7 +125,7 @@ function ProductScreen({ history, match }) {
 										className='w-100'
 										block
 										disabled={product.countInStock === 0}
-										onClick={addToCartHandler}
+										onClick={() => addToCartHandler(product._id)}
 									>
 										Dodaj do koszyka
 									</Button>
