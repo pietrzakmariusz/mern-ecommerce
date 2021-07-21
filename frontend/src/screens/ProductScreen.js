@@ -1,7 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import {
+	Row,
+	Col,
+	Image,
+	ListGroup,
+	Card,
+	Button,
+	Form,
+} from 'react-bootstrap';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -9,7 +17,9 @@ import Rating from '../components/Rating';
 
 import { listProductDetails } from '../actions/product.actions';
 
-function ProductScreen({ match }) {
+function ProductScreen({ history, match }) {
+	const [quantity, setQuantity] = useState(1);
+
 	const dispatch = useDispatch();
 
 	const { loading, error, product } = useSelector(
@@ -26,6 +36,10 @@ function ProductScreen({ match }) {
 		) : (
 			<p className='text-danger'>Wyprzedane</p>
 		);
+
+	const addToCartHandler = () => {
+		history.push(`/cart/${match.params.id}?qty=${quantity}`);
+	};
 
 	return (
 		<>
@@ -81,11 +95,34 @@ function ProductScreen({ match }) {
 									</Row>
 								</ListGroup.Item>
 
+								{product.countInStock > 0 && (
+									<ListGroup.Item>
+										<Row>
+											<Col>Ilość</Col>
+											<Col>
+												<Form.Control
+													as='select'
+													value={quantity}
+													onChange={e => setQuantity(e.target.value)}
+													className='form-select pe-4'
+												>
+													{[...Array(product.countInStock).keys()].map(x => (
+														<option key={x + 1} value={x + 1}>
+															{x + 1}
+														</option>
+													))}
+												</Form.Control>
+											</Col>
+										</Row>
+									</ListGroup.Item>
+								)}
+
 								<ListGroup.Item>
 									<Button
 										className='w-100'
 										block
 										disabled={product.countInStock === 0}
+										onClick={addToCartHandler}
 									>
 										Dodaj do koszyka
 									</Button>
